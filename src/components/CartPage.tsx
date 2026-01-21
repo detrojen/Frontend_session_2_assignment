@@ -11,8 +11,8 @@ function CartPage(){
         </>
     }
     return <>
-       <div className="flex gap-2 w-full my-2 sticky top-0">
-            <div className="w-6/10">
+       <div className="flex flex-col sm:flex-row gap-2 w-full my-2 sticky top-0">
+            <div className="w-full sm:w-6/10">
                 <CartProductList />
             </div>
             <div className="flex-1 sticky top-0">

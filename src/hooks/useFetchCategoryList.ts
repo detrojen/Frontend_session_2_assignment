@@ -7,6 +7,5 @@ export const useFetchCategoryList = () => {
         .then(res=>res.json())
         .then(res=>setCategories(res))
     },[])
-
     return {categrories}
 }

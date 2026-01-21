@@ -47,8 +47,9 @@ function BillInfoCard() {
                     <p>total items:- {calculatedBillInfo.totalQuantaty}</p>
                 </div>
                 <button className={`${btn}`} onClick={clearCart}>clear all</button>
-            </div>
 
+            </div>
+                  
         </div>
     </>
 

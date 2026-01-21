@@ -8,7 +8,7 @@ function CartProductCard({id,title,thumbnail,description,price,addedQnty}:TCartP
     const {theme:{card, btn}} = useContext(ThemeContext)
     const {handleAddeProductQuntaty,handleRemoveProduct,handleRemoveProductQuantaty} = useContext(CartContext)
     return <>
-        <div className={`${card.bg} flex my-2 justify-between border align-bottom rounded-2xl overflow-hidden`}>
+        <div className={`${card.bg} flex flex-col sm:flex-row my-2 justify-between border align-bottom rounded-2xl overflow-hidden`}>
             <div className={`flex`}>
                 <img className="w-3/10" src={thumbnail} />
                 <div>

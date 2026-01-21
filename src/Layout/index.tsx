@@ -2,18 +2,19 @@ import type { ReactNode } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import type { TLayoutProps } from "../types/layoutPropsType";
+import { Outlet } from "react-router-dom";
 
-function Layout({children, setAddProductFormRoute, setProductListRoute}: TLayoutProps){
+function Layout(){
     return <>
         <div className="bg-gray-200 min-h-dvh">
             <div className="block my-1">
-                <Navbar setAddProductFormRoute={setAddProductFormRoute} setProductListRoute={setProductListRoute}></Navbar>
+                <Navbar ></Navbar>
             </div>
             {/* <div className="block sm:hidden my-1">
                 <Sidebar></Sidebar>
             </div> */}
             <div className="px-2">
-                {children}
+                <Outlet />
             </div>
         </div>
     </>
