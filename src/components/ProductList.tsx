@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import ProductCard from "./ProductCard"
 import { useFetchProducts } from "../hooks/useFetchProducts"
 import { useFetchCategoryList } from "../hooks/useFetchCategoryList"
@@ -12,16 +12,15 @@ function ProductList() {
     const [category,setCategory] = useState("all")
     useEffect(()=>{
         let idx :number
-        if(query!=""){
+        
             idx = setTimeout(()=>handleSearchFilter(query),1000)
             setCategory("all")
-            return ()=>clearTimeout(idx!)
-        }
+        return ()=>clearTimeout(idx!)
+        
     },[query])
     useEffect(()=>{
         if(!fetchingProductState.isFetching){
             let idx :number
-        
             idx = setTimeout(()=>handleCategoryFilter(category),1000)
             setQuery("")
             return ()=>clearTimeout(idx!)
