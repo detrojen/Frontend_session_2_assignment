@@ -1,8 +1,9 @@
-import {  useContext, useMemo } from "react"
+import {  useContext, useEffect, useMemo, useRef, useState } from "react"
 import { ThemeContext } from "../contexts/ThemeContext"
 import { CartContext } from "../contexts/CartContext"
 import type { TCartProduct } from "../types/productType"
-function calcGrossTotal(products:TCartProduct[]) : {grossPrice:number, totalQuantaty: number}{
+import { Link } from "react-router-dom"
+function calculateBillInfo(products:TCartProduct[]) : {grossPrice:number, totalQuantaty: number}{
     let grossPrice = 0
     let totalQuantaty=0
     products.forEach((product)=>{
@@ -12,9 +13,19 @@ function calcGrossTotal(products:TCartProduct[]) : {grossPrice:number, totalQuan
     return {grossPrice, totalQuantaty}
 }
 function BillInfoCard() {
-    const {cartDetail: {products,additonalBillInfo}, clearCart} = useContext(CartContext)
+    const {cartDetail: {products,additonalBillInfo}, clearCart,applyCoupon} = useContext(CartContext)
+    const [isShowCouponInp, setisShowCouponInp] = useState(additonalBillInfo.couponCode != null)
+    const codeInputRef = useRef(null)
     const {theme:{card, btn}} = useContext(ThemeContext)
-    const calculatedBillInfo = useMemo<{grossPrice:number, totalQuantaty: number}>(()=>calcGrossTotal(products),[products]) 
+    const makeCodeInpVisible = () => {
+        setisShowCouponInp(true)
+    }
+    useEffect(()=>{
+        if(codeInputRef != null && additonalBillInfo.couponCode == null){
+            codeInputRef.current.focus()
+        }
+    },[isShowCouponInp])
+    // const calculatdeBillInfo = useMemo<{grossPrice:number, totalQuantaty: number}>(()=>calculateBillInfo(products),[products]) 
     return <>
         <div className={`${card.bg} p-2`}>
             <div className=" pe-1">
@@ -43,11 +54,23 @@ function BillInfoCard() {
                 </table>
 
                 <div>
-                    <p>Gross total:- {calculatedBillInfo.grossPrice}</p>
-                    <p>total items:- {calculatedBillInfo.totalQuantaty}</p>
+                    <p>Gross total:- {additonalBillInfo.grossTotal}</p>
+                    <p>total items:- {additonalBillInfo.totalItems}</p>
+                    <p>discount:- {additonalBillInfo.discount}</p>
+                    <p>payable:- {additonalBillInfo.payable}</p>
                 </div>
                 <button className={`${btn}`} onClick={clearCart}>clear all</button>
-
+                <Link className={btn} to="/checkout">Chckout</Link>
+                {
+                    !additonalBillInfo.couponCode ?
+                    <>
+                        <button className={`${btn} ${isShowCouponInp? "hidden" : "block"}`} onClick={makeCodeInpVisible}>Have a coupon?</button>
+                        <input ref={codeInputRef} onChange={(e)=>{codeInputRef.current.value = e.target.value}} className={`border ${isShowCouponInp? "block" : "hidden"}`}/>
+                        <button className={`${btn} ${isShowCouponInp? "block" : "hidden"}`}  onClick={()=>applyCoupon(codeInputRef.current.value)}>apply</button>
+                    </>
+                    :
+                    <p>applied coupon code: {additonalBillInfo.couponCode}</p>
+                }
             </div>
                   
         </div>

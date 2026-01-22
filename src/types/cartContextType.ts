@@ -8,4 +8,5 @@ export type TCartContext = {
     handleRemoveProductQuantaty : (id:number) => void
     handleRemoveProduct : (id:number) => void
     clearCart : () => void
+    applyCoupon: (code: number)=>void
 }
